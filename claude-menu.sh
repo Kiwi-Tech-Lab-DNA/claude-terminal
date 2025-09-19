@@ -99,45 +99,55 @@ show_help() {
 
 # Main menu loop
 main_menu() {
-    show_header
+    while true; do
+        show_header
 
-    # Check if fzf is available
-    if command -v fzf &> /dev/null; then
-        show_menu_fzf
-    else
-        show_menu_basic
-    fi
+        # Check if fzf is available
+        if command -v fzf &> /dev/null; then
+            show_menu_fzf
+        else
+            show_menu_basic
+        fi
 
-    choice=$?
+        choice=$?
 
-    case $choice in
-        1)
-            echo -e "${GREEN}Starting new chat...${NC}"
-            cd "$SCRIPT_DIR"
-            exec claude
-            ;;
-        2)
-            echo -e "${GREEN}Loading recent conversations...${NC}"
-            exec "$SCRIPT_DIR/claude-recents.sh"
-            ;;
-        3)
-            echo -e "${GREEN}Continuing last conversation...${NC}"
-            cd "$SCRIPT_DIR"
-            exec claude --continue
-            ;;
-        4)
-            show_help
-            main_menu  # Return to menu after help
-            ;;
-        5)
-            echo -e "${GREEN}Goodbye!${NC}"
-            exit 0
-            ;;
-        0|*)
-            echo -e "${YELLOW}Cancelled${NC}"
-            exit 0
-            ;;
-    esac
+        case $choice in
+            1)
+                echo -e "${GREEN}Starting new chat...${NC}"
+                cd "$SCRIPT_DIR"
+                claude
+                echo
+                echo -e "${YELLOW}Claude session ended. Press Enter to return to menu...${NC}"
+                read -r
+                ;;
+            2)
+                echo -e "${GREEN}Loading recent conversations...${NC}"
+                "$SCRIPT_DIR/claude-recents.sh"
+                echo
+                echo -e "${YELLOW}Press Enter to return to menu...${NC}"
+                read -r
+                ;;
+            3)
+                echo -e "${GREEN}Continuing last conversation...${NC}"
+                cd "$SCRIPT_DIR"
+                claude --continue
+                echo
+                echo -e "${YELLOW}Claude session ended. Press Enter to return to menu...${NC}"
+                read -r
+                ;;
+            4)
+                show_help
+                ;;
+            5)
+                echo -e "${GREEN}Goodbye!${NC}"
+                exit 0
+                ;;
+            0|*)
+                echo -e "${YELLOW}Cancelled${NC}"
+                exit 0
+                ;;
+        esac
+    done
 }
 
 # Run the main menu
