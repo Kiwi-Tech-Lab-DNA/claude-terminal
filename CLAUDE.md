@@ -4,22 +4,67 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-This project is a replacement for Claude Desktop, designed to provide a streamlined terminal-based interface for interacting with Claude Code.
+This project is a replacement for Claude Desktop, designed to provide a streamlined terminal-based interface for interacting with Claude Code. It includes a "Recents" feature that emulates Claude Desktop's conversation history functionality.
 
 ## Architecture
 
-The project consists of a minimal setup with a launcher script that opens Claude Code directly in this directory:
+The project consists of multiple scripts that work together to provide a complete Claude interface:
 
-- `claude-terminal.sh`: Main launcher script that changes to the project directory and executes the `claude` command
-- This is a terminal-based workflow where the claude-terminal.sh script serves as the entry point to launch Claude Code
+- `claude-terminal.sh`: Main launcher script with command-line argument support
+- `claude-menu.sh`: Interactive menu system with colorful interface using fzf when available
+- `claude-recents.sh`: Handles browsing and resuming recent conversations using `claude -r`
+- All scripts are designed to work with the Claude CLI's built-in functionality
+
+## Key Features
+
+- **Interactive Menu**: Beautiful terminal-based menu with emoji icons and colors
+- **Recent Conversations**: Browse and resume previous Claude conversations
+- **Command Line Interface**: Direct access to features via command-line flags
+- **Fallback Support**: Gracefully handles missing dependencies (fzf, etc.)
+- **Error Handling**: Comprehensive error handling and user guidance
 
 ## Development Commands
 
-Since this is a script-based project without package.json or build system:
+### Primary Usage
+- **Interactive Menu**: `./claude-terminal.sh` - Shows the main menu (default behavior)
+- **New Chat**: `./claude-terminal.sh --new` or `./claude-terminal.sh -n`
+- **Recent Conversations**: `./claude-terminal.sh --recents` or `./claude-terminal.sh -r`
+- **Continue Last**: `./claude-terminal.sh --continue` or `./claude-terminal.sh -c`
+- **Show Menu**: `./claude-terminal.sh --menu` or `./claude-terminal.sh -m`
+- **Help**: `./claude-terminal.sh --help` or `./claude-terminal.sh -h`
 
-- **Launch Claude Code**: `./claude-terminal.sh` - Opens Claude Code in this directory
-- **Direct execution**: `cd /home/doug/Code/claude-desktop && claude` - Manual way to start Claude Code
+### Direct Script Access
+- **Menu Only**: `./claude-menu.sh`
+- **Recents Only**: `./claude-recents.sh`
 
-## Usage
+### Git Commands
+- **Check Status**: `git status`
+- **View History**: `git log --oneline`
+- **Make Changes**: Standard git workflow for any modifications
 
-The primary workflow is to run the launcher script to enter Claude Code for any development or assistance needs in this repository.
+## Dependencies
+
+### Required
+- `claude` CLI tool (must be installed and configured)
+- `bash` (for script execution)
+
+### Optional (Enhanced Experience)
+- `fzf` - Provides better interactive selection menus
+- Terminal with color support for the best visual experience
+
+## Usage Patterns
+
+1. **First-time users**: Run `./claude-terminal.sh` to see the interactive menu
+2. **Power users**: Use direct flags like `./claude-terminal.sh --recents` for quick access
+3. **Recent conversations**: The recents feature leverages Claude CLI's built-in `claude -r` functionality
+4. **Continuing work**: Use `--continue` to resume your last conversation quickly
+
+## Error Handling
+
+The scripts include comprehensive error handling for common issues:
+- Missing Claude CLI installation
+- No previous conversations
+- Connectivity problems
+- Missing optional dependencies
+
+Users are guided through alternatives when errors occur.
