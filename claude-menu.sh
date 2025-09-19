@@ -174,10 +174,18 @@ main_menu() {
                 debug_log "Current directory: $(pwd)"
                 debug_log "Claude command location: $(which claude 2>/dev/null || echo 'NOT FOUND')"
 
-                if ! claude; then
-                    debug_log "Claude command failed"
+                # Temporarily disable exit-on-error for claude command
+                set +e
+                claude
+                claude_exit_code=$?
+                set -e
+
+                debug_log "Claude command exit code: $claude_exit_code"
+
+                if [ $claude_exit_code -ne 0 ]; then
+                    debug_log "Claude command failed with exit code: $claude_exit_code"
                     echo
-                    echo -e "${RED}Failed to start Claude. Press Enter to return to menu...${NC}"
+                    echo -e "${RED}Failed to start Claude (exit code: $claude_exit_code). Press Enter to return to menu...${NC}"
                     read -r
                     debug_log "User pressed Enter, returning to menu"
                 else
@@ -197,10 +205,18 @@ main_menu() {
                 cd "$SCRIPT_DIR"
                 debug_log "About to run: claude --continue"
 
-                if ! claude --continue; then
-                    debug_log "Claude --continue failed"
+                # Temporarily disable exit-on-error for claude command
+                set +e
+                claude --continue
+                claude_exit_code=$?
+                set -e
+
+                debug_log "Claude --continue exit code: $claude_exit_code"
+
+                if [ $claude_exit_code -ne 0 ]; then
+                    debug_log "Claude --continue failed with exit code: $claude_exit_code"
                     echo
-                    echo -e "${RED}Failed to continue conversation. Press Enter to return to menu...${NC}"
+                    echo -e "${RED}Failed to continue conversation (exit code: $claude_exit_code). Press Enter to return to menu...${NC}"
                     read -r
                     debug_log "User pressed Enter, returning to menu"
                 else
