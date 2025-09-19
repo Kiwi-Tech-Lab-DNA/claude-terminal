@@ -135,19 +135,27 @@ foot --title "Claude Terminal" ./claude-terminal.sh
 
 ## 🎯 Why Claude Terminal?
 
+### **The Linux Problem**
+Claude Desktop doesn't exist for Linux, leaving Linux users without access to Anthropic's powerful AI assistant. This project bridges that gap, providing a **superior terminal-based experience** that's actually better than the original desktop app.
+
+Built specifically to replace OpenAI as the default AI in [**Omarchi**](https://github.com/Kiwi-Tech-Lab-DNA/omarchi) - a comprehensive Linux AI toolkit.
+
 ### **Advantages over Claude Desktop:**
 - ✅ **Faster startup** - No Electron overhead
 - ✅ **Keyboard-driven** - Navigate entirely with keyboard
 - ✅ **Persistent workflow** - Menu stays open between conversations
 - ✅ **Terminal native** - Integrates perfectly with terminal workflows
 - ✅ **Lightweight** - Minimal resource usage
+- ✅ **Linux-first design** - Built specifically for Linux users
 - ✅ **Customizable** - Easy to modify and extend
 
 ### **Perfect for:**
-- Developers who live in the terminal
-- Users who prefer keyboard navigation
-- Anyone wanting a faster Claude experience
-- Terminal enthusiasts and power users
+- **Linux users** who want Claude access
+- **Developers** who live in the terminal
+- **Hyprland/tiling WM users** seeking seamless AI integration
+- **Omarchi users** wanting Claude as their default AI
+- **Terminal enthusiasts** and power users
+- Anyone wanting a **faster, cleaner Claude experience**
 
 ## 🛠️ Technical Details
 
@@ -217,7 +225,8 @@ MIT License - feel free to use, modify, and distribute!
 
 - [Anthropic](https://anthropic.com) for Claude and Claude Code
 - [fzf](https://github.com/junegunn/fzf) for the fantastic fuzzy finder
-- The terminal community for inspiration
+- [Omarchi](https://github.com/Kiwi-Tech-Lab-DNA/omarchi) - The Linux AI toolkit this was built for
+- The Linux and terminal community for inspiration
 
 ---
 
