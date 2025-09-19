@@ -3,6 +3,17 @@
 # Claude Desktop Replacement - Interactive Menu
 # This script provides an interactive menu for accessing Claude features
 
+# Error handling function
+error_handler() {
+    local line_no=$1
+    local error_code=$2
+    echo "[$(date '+%Y-%m-%d %H:%M:%S')] [claude-menu.sh] ERROR: Script failed at line $line_no with exit code $error_code" >> "$SCRIPT_DIR/debug.log" 2>/dev/null || true
+    echo "Script error occurred. Check debug.log for details."
+    exit $error_code
+}
+
+# Set up error handling
+trap 'error_handler ${LINENO} $?' ERR
 set -e
 
 # Color definitions
@@ -13,6 +24,19 @@ NC='\033[0m' # No Color
 
 # Get script directory
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
+# Debug logging
+DEBUG_LOG="$SCRIPT_DIR/debug.log"
+
+# Function to log debug messages
+debug_log() {
+    echo "[$(date '+%Y-%m-%d %H:%M:%S')] [claude-menu.sh] $1" >> "$DEBUG_LOG"
+}
+
+# Initialize debug log
+debug_log "=== STARTING claude-menu.sh ==="
+debug_log "Working directory: $(pwd)"
+debug_log "Script directory: $SCRIPT_DIR"
 
 # Function to display menu header
 show_header() {
@@ -101,56 +125,91 @@ show_help() {
 
 # Main menu loop
 main_menu() {
+    debug_log "Entering main menu loop"
+
     while true; do
+        debug_log "Showing menu header"
         show_header
 
+        debug_log "Checking for fzf availability"
         # Check if fzf is available
         if command -v fzf &> /dev/null; then
+            debug_log "Using fzf menu"
             show_menu_fzf
         else
+            debug_log "Using basic menu"
             show_menu_basic
         fi
 
         choice=$?
+        debug_log "User selected choice: $choice"
 
         case $choice in
             1)
+                debug_log "Processing: New chat"
                 echo -e "${GREEN}Starting new chat...${NC}"
                 cd "$SCRIPT_DIR"
+                debug_log "About to run claude command"
+                debug_log "Current directory: $(pwd)"
+                debug_log "Claude command location: $(which claude 2>/dev/null || echo 'NOT FOUND')"
+
                 if ! claude; then
+                    debug_log "Claude command failed"
                     echo
                     echo -e "${RED}Failed to start Claude. Press Enter to return to menu...${NC}"
                     read -r
+                    debug_log "User pressed Enter, returning to menu"
+                else
+                    debug_log "Claude command completed successfully"
                 fi
                 ;;
             2)
+                debug_log "Processing: Recent conversations"
                 echo -e "${GREEN}Loading recent conversations...${NC}"
+                debug_log "About to run: $SCRIPT_DIR/claude-recents.sh"
                 "$SCRIPT_DIR/claude-recents.sh"
+                debug_log "claude-recents.sh completed"
                 ;;
             3)
+                debug_log "Processing: Continue last conversation"
                 echo -e "${GREEN}Continuing last conversation...${NC}"
                 cd "$SCRIPT_DIR"
+                debug_log "About to run: claude --continue"
+
                 if ! claude --continue; then
+                    debug_log "Claude --continue failed"
                     echo
                     echo -e "${RED}Failed to continue conversation. Press Enter to return to menu...${NC}"
                     read -r
+                    debug_log "User pressed Enter, returning to menu"
+                else
+                    debug_log "Claude --continue completed successfully"
                 fi
                 ;;
             4)
+                debug_log "Processing: Help"
                 show_help
                 ;;
             5)
+                debug_log "Processing: Exit"
                 echo -e "${GREEN}Goodbye!${NC}"
+                debug_log "User chose to exit"
                 exit 0
                 ;;
             0)
+                debug_log "Processing: User cancelled"
                 # User cancelled selection
                 echo -e "${YELLOW}Cancelled${NC}"
+                debug_log "User cancelled, exiting"
                 exit 0
                 ;;
         esac
+
+        debug_log "Completed choice processing, returning to menu loop"
     done
 }
 
 # Run the main menu
+debug_log "About to call main_menu function"
 main_menu
+debug_log "=== ENDING claude-menu.sh ==="
