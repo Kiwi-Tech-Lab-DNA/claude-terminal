@@ -31,19 +31,27 @@ cd "$SCRIPT_DIR"
 case "${1:-}" in
     --new|-n)
         echo "Starting new chat..."
-        exec claude
+        if ! claude; then
+            echo
+            echo "Failed to start Claude. Please check your installation and try again."
+            exit 1
+        fi
         ;;
     --recents|-r)
         echo "Loading recent conversations..."
-        exec "$SCRIPT_DIR/claude-recents.sh"
+        "$SCRIPT_DIR/claude-recents.sh"
         ;;
     --continue|-c)
         echo "Continuing last conversation..."
-        exec claude --continue
+        if ! claude --continue; then
+            echo
+            echo "Failed to continue conversation. You may not have any previous conversations."
+            exit 1
+        fi
         ;;
     --menu|-m|"")
         # Default behavior - show menu
-        exec "$SCRIPT_DIR/claude-menu.sh"
+        "$SCRIPT_DIR/claude-menu.sh"
         ;;
     --help|-h)
         show_usage

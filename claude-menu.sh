@@ -117,7 +117,11 @@ main_menu() {
             1)
                 echo -e "${GREEN}Starting new chat...${NC}"
                 cd "$SCRIPT_DIR"
-                exec claude
+                if ! claude; then
+                    echo
+                    echo -e "${RED}Failed to start Claude. Press Enter to return to menu...${NC}"
+                    read -r
+                fi
                 ;;
             2)
                 echo -e "${GREEN}Loading recent conversations...${NC}"
@@ -126,7 +130,11 @@ main_menu() {
             3)
                 echo -e "${GREEN}Continuing last conversation...${NC}"
                 cd "$SCRIPT_DIR"
-                exec claude --continue
+                if ! claude --continue; then
+                    echo
+                    echo -e "${RED}Failed to continue conversation. Press Enter to return to menu...${NC}"
+                    read -r
+                fi
                 ;;
             4)
                 show_help
