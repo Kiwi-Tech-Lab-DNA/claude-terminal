@@ -49,6 +49,53 @@ cd claude-terminal
 chmod +x *.sh
 ```
 
+### 🎯 Hyprland Integration
+
+For the ultimate Hyprland experience, add Claude Terminal as a keybinding:
+
+**1. Add to your `hyprland.conf`:**
+```bash
+# Claude Terminal - AI Assistant
+bind = SUPER, C, exec, kitty --title "Claude Terminal" -e /path/to/claude-terminal/claude-terminal.sh
+```
+
+**2. Alternative with floating window:**
+```bash
+# Claude Terminal - Floating AI Assistant
+bind = SUPER, C, exec, kitty --title "Claude Terminal" --class "claude-terminal" -e /path/to/claude-terminal/claude-terminal.sh
+
+# Window rule for floating Claude Terminal
+windowrulev2 = float, class:(claude-terminal)
+windowrulev2 = size 900 600, class:(claude-terminal)
+windowrulev2 = center, class:(claude-terminal)
+```
+
+**3. Quick launcher alternative:**
+```bash
+# Quick Claude launcher with rofi/wofi
+bind = SUPER SHIFT, C, exec, rofi -show drun -filter "Claude Terminal"
+```
+
+**Replace `/path/to/claude-terminal/` with your actual installation path!**
+
+### 🖥️ Terminal Options
+
+Claude Terminal works great with different terminal emulators:
+
+```bash
+# Kitty (recommended)
+kitty --title "Claude Terminal" -e ./claude-terminal.sh
+
+# Alacritty
+alacritty --title "Claude Terminal" -e ./claude-terminal.sh
+
+# Wezterm
+wezterm start --class "claude-terminal" -- ./claude-terminal.sh
+
+# Foot
+foot --title "Claude Terminal" ./claude-terminal.sh
+```
+
 ### Usage
 
 **Interactive Menu (Recommended):**
