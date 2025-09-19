@@ -98,8 +98,15 @@ case "${1:-}" in
     --menu|-m|"")
         debug_log "Selected: Show menu (default)"
         debug_log "About to run: $SCRIPT_DIR/claude-menu.sh"
-        "$SCRIPT_DIR/claude-menu.sh"
-        debug_log "claude-menu.sh completed"
+        if "$SCRIPT_DIR/claude-menu.sh"; then
+            debug_log "claude-menu.sh completed successfully"
+        else
+            menu_exit_code=$?
+            debug_log "claude-menu.sh exited with code: $menu_exit_code"
+            if [ $menu_exit_code -eq 130 ]; then
+                debug_log "User interrupted menu (Ctrl+C)"
+            fi
+        fi
         ;;
     --help|-h)
         debug_log "Selected: Help"

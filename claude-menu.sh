@@ -50,29 +50,50 @@ show_header() {
 # Function to show menu using fzf if available
 show_menu_fzf() {
     local choice
+    debug_log "Starting fzf menu selection"
+
+    # Temporarily disable exit on error for fzf
+    set +e
     choice=$(echo -e "🆕 New Chat\n📋 Recent Conversations\n⏮️  Continue Last Conversation\n❓ Help\n❌ Exit" | \
              fzf --height=10 --layout=reverse --border=rounded \
                  --prompt="Select an option: " \
                  --header="What would you like to do?" \
-                 --ansi)
+                 --ansi 2>/dev/null)
+    local fzf_exit_code=$?
+    set -e
+
+    debug_log "fzf exit code: $fzf_exit_code"
+    debug_log "fzf choice: '$choice'"
+
+    # Handle fzf cancellation
+    if [ $fzf_exit_code -ne 0 ]; then
+        debug_log "fzf was cancelled or failed"
+        return 0  # User cancelled
+    fi
 
     case "$choice" in
         "🆕 New Chat")
+            debug_log "fzf selected: New Chat"
             return 1
             ;;
         "📋 Recent Conversations")
+            debug_log "fzf selected: Recent Conversations"
             return 2
             ;;
         "⏮️  Continue Last Conversation")
+            debug_log "fzf selected: Continue Last Conversation"
             return 3
             ;;
         "❓ Help")
+            debug_log "fzf selected: Help"
             return 4
             ;;
         "❌ Exit")
+            debug_log "fzf selected: Exit"
             return 5
             ;;
         *)
+            debug_log "fzf selected: Unknown choice '$choice'"
             return 0
             ;;
     esac
