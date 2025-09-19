@@ -26,34 +26,22 @@ show_header() {
 
 # Function to show recent conversations using fzf
 show_recents_fzf() {
-    local temp_file
-    temp_file=$(mktemp)
-
-    # Create a temporary script to capture the output of claude -r
-    cat > "$temp_file" << 'EOF'
-#!/bin/bash
-# Capture the interactive session ID selection
-exec 3>&1
-claude -r 2>&1 | tee /dev/fd/3
-EOF
-
-    chmod +x "$temp_file"
-
     echo -e "${YELLOW}Loading recent conversations...${NC}"
     echo
     echo "This will show Claude's built-in conversation selector."
     echo "Use it to choose which conversation to resume."
     echo
-    echo -e "${GREEN}Press Enter to continue, or Ctrl+C to cancel...${NC}"
+    echo -e "${GREEN}Press Enter to continue, or Ctrl+C to return to menu...${NC}"
     read -r
 
     cd "$SCRIPT_DIR"
 
-    # Use claude's built-in resume functionality
-    exec claude -r
-
-    # Cleanup
-    rm -f "$temp_file"
+    # Try to run claude -r and handle potential issues
+    if ! claude -r; then
+        echo
+        echo -e "${RED}Claude resume failed or no conversations found.${NC}"
+        handle_error
+    fi
 }
 
 # Function to show recent conversations with basic interface
@@ -75,12 +63,20 @@ show_recents_basic() {
         1)
             echo -e "${GREEN}Loading conversation browser...${NC}"
             cd "$SCRIPT_DIR"
-            exec claude -r
+            if ! claude -r; then
+                echo
+                echo -e "${RED}Claude resume failed or no conversations found.${NC}"
+                handle_error
+            fi
             ;;
         2)
             echo -e "${GREEN}Continuing last conversation...${NC}"
             cd "$SCRIPT_DIR"
-            exec claude -c
+            if ! claude -c; then
+                echo
+                echo -e "${RED}No previous conversation found to continue.${NC}"
+                handle_error
+            fi
             ;;
         3)
             exec "$SCRIPT_DIR/claude-menu.sh"
@@ -95,12 +91,14 @@ show_recents_basic() {
 
 # Function to handle errors gracefully
 handle_error() {
-    echo -e "${RED}Error: Failed to load recent conversations.${NC}"
+    echo
+    echo -e "${RED}Unable to load recent conversations.${NC}"
     echo
     echo "This might happen if:"
     echo "  • You haven't had any conversations with Claude yet"
     echo "  • Claude CLI is not properly configured"
     echo "  • There's a connectivity issue"
+    echo "  • No previous conversations are available"
     echo
     echo -e "${YELLOW}Would you like to:${NC}"
     echo "  1) Try again"
@@ -108,25 +106,28 @@ handle_error() {
     echo "  3) Return to main menu"
     echo
 
-    read -p "Select an option (1-3): " choice
+    while true; do
+        read -p "Select an option (1-3): " choice
 
-    case $choice in
-        1)
-            main_recents
-            ;;
-        2)
-            cd "$SCRIPT_DIR"
-            exec claude
-            ;;
-        3)
-            exec "$SCRIPT_DIR/claude-menu.sh"
-            ;;
-        *)
-            echo -e "${RED}Invalid option.${NC}"
-            sleep 1
-            handle_error
-            ;;
-    esac
+        case $choice in
+            1)
+                main_recents
+                return
+                ;;
+            2)
+                echo -e "${GREEN}Starting new conversation...${NC}"
+                cd "$SCRIPT_DIR"
+                exec claude
+                ;;
+            3)
+                echo -e "${GREEN}Returning to main menu...${NC}"
+                exec "$SCRIPT_DIR/claude-menu.sh"
+                ;;
+            *)
+                echo -e "${RED}Invalid option. Please enter 1, 2, or 3.${NC}"
+                ;;
+        esac
+    done
 }
 
 # Main function
@@ -145,9 +146,9 @@ main_recents() {
 
     # Try to use the interface
     if command -v fzf &> /dev/null; then
-        show_recents_fzf || handle_error
+        show_recents_fzf
     else
-        show_recents_basic || handle_error
+        show_recents_basic
     fi
 }
 
