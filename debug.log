@@ -1,0 +1,63 @@
+[2025-09-19 18:14:20] [claude-terminal.sh] === STARTING claude-terminal.sh ===
+[2025-09-19 18:14:20] [claude-terminal.sh] Script arguments: 
+[2025-09-19 18:14:20] [claude-terminal.sh] Working directory: /home/doug
+[2025-09-19 18:14:20] [claude-terminal.sh] Script directory: /home/doug/Code/claude-desktop
+[2025-09-19 18:14:20] [claude-terminal.sh] Parsing command line argument: ''
+[2025-09-19 18:14:20] [claude-terminal.sh] Selected: Show menu (default)
+[2025-09-19 18:14:20] [claude-terminal.sh] About to run: /home/doug/Code/claude-desktop/claude-menu.sh
+[2025-09-19 18:14:20] [claude-menu.sh] === STARTING claude-menu.sh ===
+[2025-09-19 18:14:20] [claude-menu.sh] Working directory: /home/doug/Code/claude-desktop
+[2025-09-19 18:14:20] [claude-menu.sh] Script directory: /home/doug/Code/claude-desktop
+[2025-09-19 18:14:20] [claude-menu.sh] About to call main_menu function
+[2025-09-19 18:14:20] [claude-menu.sh] Entering main menu loop
+[2025-09-19 18:14:20] [claude-menu.sh] Showing menu header
+[2025-09-19 18:14:20] [claude-menu.sh] Checking for fzf availability
+[2025-09-19 18:14:20] [claude-menu.sh] Using fzf menu
+[2025-09-19 18:14:20] [claude-menu.sh] Starting fzf menu selection
+[2025-09-19 18:14:22] [claude-menu.sh] fzf exit code: 0
+[2025-09-19 18:14:22] [claude-menu.sh] fzf choice: '🆕 New Chat'
+[2025-09-19 18:14:22] [claude-menu.sh] fzf selected: New Chat
+[2025-09-19 18:14:22] [claude-terminal.sh] claude-menu.sh exited with code: 1
+[2025-09-19 18:14:22] [claude-terminal.sh] === ENDING claude-terminal.sh ===
+[2025-09-19 18:14:25] [claude-terminal.sh] === STARTING claude-terminal.sh ===
+[2025-09-19 18:14:25] [claude-terminal.sh] Script arguments: 
+[2025-09-19 18:14:25] [claude-terminal.sh] Working directory: /home/doug
+[2025-09-19 18:14:25] [claude-terminal.sh] Script directory: /home/doug/Code/claude-desktop
+[2025-09-19 18:14:25] [claude-terminal.sh] Parsing command line argument: ''
+[2025-09-19 18:14:25] [claude-terminal.sh] Selected: Show menu (default)
+[2025-09-19 18:14:25] [claude-terminal.sh] About to run: /home/doug/Code/claude-desktop/claude-menu.sh
+[2025-09-19 18:14:25] [claude-menu.sh] === STARTING claude-menu.sh ===
+[2025-09-19 18:14:25] [claude-menu.sh] Working directory: /home/doug/Code/claude-desktop
+[2025-09-19 18:14:25] [claude-menu.sh] Script directory: /home/doug/Code/claude-desktop
+[2025-09-19 18:14:25] [claude-menu.sh] About to call main_menu function
+[2025-09-19 18:14:25] [claude-menu.sh] Entering main menu loop
+[2025-09-19 18:14:25] [claude-menu.sh] Showing menu header
+[2025-09-19 18:14:25] [claude-menu.sh] Checking for fzf availability
+[2025-09-19 18:14:25] [claude-menu.sh] Using fzf menu
+[2025-09-19 18:14:25] [claude-menu.sh] Starting fzf menu selection
+[2025-09-19 18:14:27] [claude-menu.sh] fzf exit code: 0
+[2025-09-19 18:14:27] [claude-menu.sh] fzf choice: '📋 Recent Conversations'
+[2025-09-19 18:14:27] [claude-menu.sh] fzf selected: Recent Conversations
+[2025-09-19 18:14:27] [claude-terminal.sh] claude-menu.sh exited with code: 2
+[2025-09-19 18:14:27] [claude-terminal.sh] === ENDING claude-terminal.sh ===
+[2025-09-19 18:18:38] [claude-terminal.sh] === STARTING claude-terminal.sh ===
+[2025-09-19 18:18:38] [claude-terminal.sh] Script arguments: 
+[2025-09-19 18:18:38] [claude-terminal.sh] Working directory: /home/doug
+[2025-09-19 18:18:38] [claude-terminal.sh] Script directory: /home/doug/Code/claude-desktop
+[2025-09-19 18:18:38] [claude-terminal.sh] Parsing command line argument: ''
+[2025-09-19 18:18:38] [claude-terminal.sh] Selected: Show menu (default)
+[2025-09-19 18:18:38] [claude-terminal.sh] About to run: /home/doug/Code/claude-desktop/claude-menu.sh
+[2025-09-19 18:18:38] [claude-menu.sh] === STARTING claude-menu.sh ===
+[2025-09-19 18:18:38] [claude-menu.sh] Working directory: /home/doug/Code/claude-desktop
+[2025-09-19 18:18:38] [claude-menu.sh] Script directory: /home/doug/Code/claude-desktop
+[2025-09-19 18:18:38] [claude-menu.sh] About to call main_menu function
+[2025-09-19 18:18:38] [claude-menu.sh] Entering main menu loop
+[2025-09-19 18:18:38] [claude-menu.sh] Showing menu header
+[2025-09-19 18:18:38] [claude-menu.sh] Checking for fzf availability
+[2025-09-19 18:18:38] [claude-menu.sh] Using fzf menu
+[2025-09-19 18:18:38] [claude-menu.sh] Starting fzf menu selection
+[2025-09-19 18:18:40] [claude-menu.sh] fzf exit code: 0
+[2025-09-19 18:18:40] [claude-menu.sh] fzf choice: '🆕 New Chat'
+[2025-09-19 18:18:40] [claude-menu.sh] fzf selected: New Chat
+[2025-09-19 18:18:40] [claude-terminal.sh] claude-menu.sh exited with code: 1
+[2025-09-19 18:18:40] [claude-terminal.sh] === ENDING claude-terminal.sh ===
