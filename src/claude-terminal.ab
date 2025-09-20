@@ -1,0 +1,67 @@
+#!/usr/bin/env amber
+
+// Claude Desktop Replacement - Main Launcher
+// This script provides multiple ways to access Claude functionality
+// Written in Amber for better readability and maintainability
+
+import * from "std"
+
+// Get script directory
+fun get_script_dir(): Text {
+    let result = $cd "$(dirname "${BASH_SOURCE[0]}")" && pwd$?
+    return result as Text
+}
+
+// Function to show usage help
+fun show_usage() {
+    echo "Claude Desktop Terminal - Main Launcher"
+    echo ""
+    echo "Usage: $0 [option]"
+    echo ""
+    echo "Options:"
+    echo "  --new, -n         Start a new chat directly"
+    echo "  --recents, -r     Browse recent conversations"
+    echo "  --continue, -c    Continue the last conversation"
+    echo "  --menu, -m        Show interactive menu (default)"
+    echo "  --help, -h        Show this help message"
+    echo ""
+    echo "If no option is provided, the interactive menu will be shown."
+}
+
+// Main function
+main {
+    let script_dir = get_script_dir()
+    $cd "{script_dir}"$?
+
+    // Get command line argument (if any)
+    let arg = if len(args) > 0 { args[0] } else { "" }
+
+    if arg == "--new" or arg == "-n" {
+        echo "Starting new chat..."
+        $cd "{script_dir}"$?
+        $claude$?
+
+    } else if arg == "--recents" or arg == "-r" {
+        echo "Loading recent conversations..."
+        $"{script_dir}/claude-recents.sh"$?
+
+    } else if arg == "--continue" or arg == "-c" {
+        echo "Continuing last conversation..."
+        $cd "{script_dir}"$?
+        $claude --continue$?
+
+    } else if arg == "--menu" or arg == "-m" or arg == "" {
+        // Default behavior - show menu
+        $"{script_dir}/claude-menu.sh"$?
+
+    } else if arg == "--help" or arg == "-h" {
+        show_usage()
+        exit(0)
+
+    } else {
+        echo "Error: Unknown option '{arg}'"
+        echo ""
+        show_usage()
+        exit(1)
+    }
+}
